@@ -499,7 +499,7 @@
         where        (normalize-all-eavs (vec (:where qm)))
         eavs         (get-eavs where)
         vars         (vec (get-all-vars eavs))
-        newqm        (merge qm {:find vars :where where})
+        newqm        (merge (dissoc qm :with) {:find vars :where where})
         ;; This doesn't seem to be getting used anymore
         ;;newq         (qm-to-query newqm)
         dbvarmap     (make-dbarg-map (:in qm) args)
@@ -533,8 +533,10 @@
                   (apply merge))}))))
      (when (some #{:results} retrieve)
        {:results
-        ((:q dcfg) {:find (vec (:find qm))
-                    :in [[vars '...]]}
+        ((:q dcfg) (merge
+                    {:find (vec (:find qm))
+                     :in [[vars '...]]}
+                    (select-keys qm [:with]))
          (vec r))})
      (when (some #{:patterns :filter-patterns :simple-patterns} retrieve)
        (let

@@ -13,6 +13,17 @@
                  ffirst)]
     (is (some? eid) "Entity should be returned from basic matching query")))
 
+(deftest test-with-clause
+  (let [conn (dt/create-conn)]
+    (d/posh! conn)
+    (d/transact! conn [{:a "foo"} {:a "foo"}])
+    (is (= [["foo"] ["foo"]]
+           @(d/q '[:find ?a
+                   :with ?e
+                   :where [?e :a ?a]]
+                 conn))
+        "Tuples should be coalesced taking :with into account")))
+
 ;; NOTE: Hardcoding in a lookup-ref in :where isn't supposed to work -- so only testing :in here
 ;;       https://docs.datomic.com/on-prem/identity.html#lookup-refs
 (deftest test-lookup-ref-in-eid
