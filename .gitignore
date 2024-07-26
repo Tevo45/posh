@@ -12,3 +12,6 @@ pom.xml.asc
 figwheel_server.log
 /resources/public/js
 /out/
+/.shadow-cljs
+/node_modules
+/yarn.lock

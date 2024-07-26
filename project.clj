@@ -9,7 +9,10 @@
                  #_[com.datomic/datomic-free "0.9.5407"]
                  [org.clojure/core.match "0.3.0"]]
   :plugins [[lein-cljsbuild "1.1.3"]]
-  :profiles {:dev {:plugins [[lein-githooks "0.1.0"]]
+  :profiles {:shadow-cljs {:source-paths ["src/"]
+                           :dependencies [[thheller/shadow-cljs "2.28.10"]
+                                          [reagent "1.2.0"]]}
+             :dev {:plugins [[lein-githooks "0.1.0"]]
                    :githooks {:auto-install true
                               :pre-push ["lein kaocha"]}}
              :test {:dependencies [[datascript "0.18.6"]

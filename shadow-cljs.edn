@@ -1,0 +1,5 @@
+{:lein {:profile "+shadow-cljs"}
+ :builds {:posh {:target :browser
+                 :output-dir "resources/public/js/main.js"
+                 :asset-path "js"
+                 :modules {:main {:entries [posh.core]}}}}}
